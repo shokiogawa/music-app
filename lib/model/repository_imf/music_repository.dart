@@ -5,7 +5,7 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 abstract class IMusicRepository {
   Future<Music> downLoadMusic(String url);
 
-  Future<List<entity.Video>> searchVideo(String query);
+  // Future<List<entity.Video>> searchVideo(String query);
 
   Future<List<Music>> getListMusics();
 

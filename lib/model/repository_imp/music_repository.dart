@@ -121,6 +121,7 @@ class MusicRepository extends IMusicRepository {
     await _preferences.setStringList('musics', _musicsJson);
   }
 
+  @override
   Future<List<Music>> getListMusics() async {
     final SharedPreferences _preferences =
         await SharedPreferences.getInstance();
@@ -133,21 +134,21 @@ class MusicRepository extends IMusicRepository {
     return _musicList;
   }
 
-  @override
-  //ビデオリスト取得
-  Future<List<entity.Video>> searchVideo(String query) async {
-    final YoutubeExplode yt = YoutubeExplode();
-    final searchList = await yt.search.getVideos(query);
-    final List<entity.Video> videoList = searchList
-        .map((vi) => entity.Video(
-            url: vi.url,
-            title: vi.title,
-            author: vi.author,
-            thumnail: vi.thumbnails,
-            duration: vi.duration!))
-        .toList();
-    return videoList;
-  }
+  // @override
+  // //ビデオリスト取得
+  // Future<List<entity.Video>> searchVideo(String query) async {
+  //   final YoutubeExplode yt = YoutubeExplode();
+  //   final searchList = await yt.search.getVideos(query);
+  //   final List<entity.Video> videoList = searchList
+  //       .map((vi) => entity.Video(
+  //           url: vi.url,
+  //           title: vi.title,
+  //           author: vi.author,
+  //           thumnail: vi.thumbnails,
+  //           duration: vi.duration!))
+  //       .toList();
+  //   return videoList;
+  // }
 
   @override
   Future<void> deleteMusic(String musicTitle) async {
