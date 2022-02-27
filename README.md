@@ -9,6 +9,7 @@ MVVMアーキテクチャー
 riverpod + stateNotifier + freezed
 
 ## ディレクトリ構造
+```
 lib/
   ├ component
   ├ model
@@ -22,3 +23,4 @@ lib/
   ├ view_model
   di.dart
   main.dart
+  ```
