@@ -21,8 +21,12 @@ class MusicRepository extends IMusicRepository {
       // final YoutubeExplode yt = YoutubeExplode();
       //動画の情報をl一括取得
       final video = await yt.videos.get(url);
+      final manifest = await yt.videos.streamsClient.getManifest(url);
+      final streamAudioInfo = manifest.audioOnly;
+      final audio = streamAudioInfo.first;
+      final stream = yt.videos.streamsClient.get(audio);
       //動画のタイトルを取得し、余分な文字列を削除。
-      final musicTitle = '${video.title}}'
+      final musicTitle = '${video.title}.${audio.container.name}'
           .replaceAll(r'\', '')
           .replaceAll('/', '')
           .replaceAll('*', '')
@@ -36,22 +40,16 @@ class MusicRepository extends IMusicRepository {
         author: video.author,
         image: video.thumbnails.standardResUrl,
       );
+      final directory = Directory('$path/musics/');
+      await directory.create(recursive: true);
 
       //まだ音楽がダウンロードされていない場合。
       if (await File('$path/musics/$musicTitle').exists() != true) {
         //ディレクトリの作成
-        final directory = Directory('$path/musics/');
-        await directory.create(recursive: true);
         //ファイルの作成
         final musicFile = File('$path/musics/$musicTitle');
         final outPut = musicFile.openWrite(mode: FileMode.writeOnlyAppend);
 
-        //Gets the manifest that contains information about available streams in the specified video
-        final manifest = await yt.videos.streamsClient.getManifest(url);
-        //Gets audio-only streams (no video)
-        final streamAudioInfo = manifest.audioOnly;
-        final audio = streamAudioInfo.first;
-        final stream = yt.videos.streamsClient.get(audio);
         double count = 0;
         final len = audio.size.totalBytes;
         //したの処理を待たずに行ってしまう。けどダウンロードはできている。

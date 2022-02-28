@@ -6,9 +6,11 @@
     <array>
       <string>audio</string>
     </array>
-    <key>UIFileSharingEnabled</key>
+    <key>NSAllowsArbitraryLoads</key>
     <true/>
     <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key>
     <true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
