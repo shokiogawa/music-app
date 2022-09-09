@@ -8,8 +8,6 @@ class MusicProgressBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final progressBar =
-        ref.watch(musicManagerViewModelProvider).progressBarState;
     final notifier = ref.read(musicManagerViewModelProvider.notifier);
     final musicTitle = ref.watch(
         musicManagerViewModelProvider.select((value) => value.musicTitle));
@@ -20,12 +18,14 @@ class MusicProgressBar extends HookConsumerWidget {
         child: Column(
           children: [
             Text(musicTitle),
-            ProgressBar(
-              progress: progressBar.current,
-              total: progressBar.total,
-              buffered: progressBar.buffered,
-              onSeek: notifier.seek,
-            ),
+            Consumer(builder: (context, refCon, _){
+              final progressBar =
+                  refCon.watch(musicManagerViewModelProvider).progressBarState;
+              return ProgressBar(
+                  progress: progressBar.current,
+                  total: progressBar.total, buffered:
+              progressBar.buffered,onSeek: notifier.seek);
+            }),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

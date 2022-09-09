@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_re_ca/component/music_progress_bar.dart';
 import 'package:re_re_ca/di.dart';
-import 'package:re_re_ca/model/repository_imp/music_repository.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
