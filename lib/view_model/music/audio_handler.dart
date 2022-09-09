@@ -1,10 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:re_re_ca/model/repository_imf/music_repository.dart';
-import 'package:re_re_ca/model/repository_imp/music_repository.dart';
-
-import '../../model/entity/music/music.dart';
 
 class AudioHandlerViewModel extends BaseAudioHandler with SeekHandler {
   final _player = AudioPlayer();
@@ -20,7 +16,6 @@ class AudioHandlerViewModel extends BaseAudioHandler with SeekHandler {
     try {
       await _player.setAudioSource(_playList);
     } catch (e) {
-      print(e);
       Future.error(e);
     }
   }
@@ -77,12 +72,6 @@ class AudioHandlerViewModel extends BaseAudioHandler with SeekHandler {
       newQue[index] = newMediaItem;
       queue.add(newQue);
       mediaItem.add(newMediaItem);
-      // print("-----------------------");
-      // print(index);
-      // print(newQue);
-      // print(oldMediaItem);
-      // print(newMediaItem);
-      // print("-----------------------");
     });
   }
 
@@ -95,7 +84,6 @@ class AudioHandlerViewModel extends BaseAudioHandler with SeekHandler {
   }
 
   Future<void> tapMusic(int index) async {
-    print(index);
     await _player.seek(Duration.zero, index: index);
     if (!_player.playing) {
       await play();
@@ -139,7 +127,7 @@ class AudioHandlerViewModel extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> stop() async {
     // TODO: implement stop
-    await _player.stop();
+    await _player.dispose();
     return super.stop();
   }
 
@@ -161,8 +149,6 @@ class AudioHandlerViewModel extends BaseAudioHandler with SeekHandler {
 
     final newQue = queue.value..add(mediaItem);
     queue.add(newQue);
-    print(_playList);
-    print(queue.value);
   }
 
   @override

@@ -13,7 +13,6 @@ class HomeScreen extends HookConsumerWidget {
     final notifier = ref.read(musicManagerViewModelProvider.notifier);
     final musicList = ref.watch(musicManagerViewModelProvider).musicList;
     useEffect(() {
-      print("やあ");
       notifier.init();
     }, const []);
     return Scaffold(

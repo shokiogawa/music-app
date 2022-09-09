@@ -113,10 +113,6 @@ class MusicManagerViewModel extends StateNotifier<MusicState> {
     _audioHandlerViewModel.addQueueItems(mediaItems);
   }
 
-  // Future<void> confirmPlayList() async {
-  //   _audioHandlerViewModel.confirmPlayList();
-  // }
-
   Future<void> clear() async {
     _audioHandlerViewModel.clear();
   }
@@ -158,5 +154,12 @@ class MusicManagerViewModel extends StateNotifier<MusicState> {
     state = state.copyWith(musicList: state.musicList);
     //新しい音楽を保存。
     await _musicRepository.saveListMusic(state.musicList);
+  }
+
+  @override
+  void dispose() {
+    print('dispose');
+    _audioHandlerViewModel.stop();
+    super.dispose();
   }
 }
