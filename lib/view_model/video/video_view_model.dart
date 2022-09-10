@@ -13,4 +13,9 @@ class VideoViewModel extends StateNotifier<VideoState> {
     final List<Video> videos = await _videoRepository.searchVideo(query);
     state = state.copyWith(videoList: videos);
   }
+
+  @override
+  void dispose(){
+    super.dispose();
+  }
 }

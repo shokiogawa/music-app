@@ -1,27 +1,34 @@
 import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_re_ca/model/entity/music/music.dart';
 import 'package:re_re_ca/model/repository_imf/music_repository.dart';
 import 'package:re_re_ca/state/music_state.dart';
 import 'package:re_re_ca/view_model/music/audio_handler.dart';
 
-class MusicManagerViewModel extends StateNotifier<MusicState> {
+class MusicManagerViewModel extends StateNotifier<MusicState> with WidgetsBindingObserver {
   final AudioHandlerViewModel _audioHandlerViewModel;
   final IMusicRepository _musicRepository;
 
   MusicManagerViewModel(this._audioHandlerViewModel, this._musicRepository)
-      : super(const MusicState());
+      : super(const MusicState()){
+    //クラス初期化時に呼ばれる。
+    WidgetsBinding.instance!.addObserver(this);
+  }
 
   void init() async {
+    //音楽データ取得
     await _loadPlayList();
+    //再生音楽のcurrent statusを取得
     _listenToCurrentPosition();
     _listenToBufferedPosition();
     _listenToTotalDuration();
+    //音楽のタイトルを変更
     _listenToChangeMusic();
+    //再生中かどうかを取得する。
     _listenToIsPlay();
-    _listenToMusic();
   }
 
   Future<void> _loadPlayList() async {
@@ -31,12 +38,6 @@ class MusicManagerViewModel extends StateNotifier<MusicState> {
         .map((music) => MediaItem(id: music.title, title: music.title))
         .toList();
     await _audioHandlerViewModel.addQueueItems(mediaItems);
-  }
-
-  void _listenToMusic() {
-    _audioHandlerViewModel.mediaItem.listen((value) {
-      print(value?.title);
-    });
   }
 
   void _listenToCurrentPosition() {
@@ -156,10 +157,18 @@ class MusicManagerViewModel extends StateNotifier<MusicState> {
     await _musicRepository.saveListMusic(state.musicList);
   }
 
+  //アプリがkillされたタイミングで削除
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.detached) {
+      _audioHandlerViewModel.stop();
+    }
+  }
+
   @override
   void dispose() {
-    print('dispose');
-    _audioHandlerViewModel.stop();
+    // _audioHandlerViewModel.stop();
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 }

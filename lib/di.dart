@@ -17,7 +17,7 @@ final audioHandlerProvider =
 
 //viewModel
 final musicManagerViewModelProvider =
-    StateNotifierProvider<MusicManagerViewModel, MusicState>((ref) =>
+    StateNotifierProvider.autoDispose<MusicManagerViewModel, MusicState>((ref) =>
         MusicManagerViewModel(ref.watch(audioHandlerProvider),
             ref.watch(musicRepositoryImpProvider)));
 
