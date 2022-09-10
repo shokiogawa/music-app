@@ -34,7 +34,8 @@ class MusicRepository extends IMusicRepository {
           .replaceAll('"', '')
           .replaceAll('<', '')
           .replaceAll('>', '')
-          .replaceAll('|', '');
+          .replaceAll('|', '')
+          .replaceAll('}', '');
       final Music music = Music(
         title: musicTitle,
         author: video.author,

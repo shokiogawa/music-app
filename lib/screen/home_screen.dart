@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:re_re_ca/component/music_progress_bar.dart';
+import 'package:re_re_ca/component/music_tile.dart';
 import 'package:re_re_ca/di.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -33,29 +34,30 @@ class HomeScreen extends HookConsumerWidget {
                 onTap: () {
                   notifier.tapMusic(index);
                 },
-                child: Card(
-                  color: Colors.grey.withOpacity(0.1),
-                  child: Column(
-                    children: [
-                      Image.network(
-                        musicList[index].image,
-                        height: 150,
-                        width: 150,
-                      ),
-                      Text(musicList[index].title),
-                      Text(musicList[index].author),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(primary: Colors.red.withOpacity(0.5)),
-                            onPressed: () async {
-                              await notifier.removeMusic(index);
-                            },
-                            child: const Text("削除")),
-                      )
-                    ],
-                  ),
-                ),
+                child: MusicTile(musicList[index], key)
+                // Card(
+                //   color: Colors.grey.withOpacity(0.1),
+                //   child: Column(
+                //     children: [
+                //       Image.network(
+                //         musicList[index].image,
+                //         height: 150,
+                //         width: 150,
+                //       ),
+                //       Text(musicList[index].title),
+                //       Text(musicList[index].author),
+                //       Align(
+                //         alignment: Alignment.topRight,
+                //         child: ElevatedButton(
+                //             style: ElevatedButton.styleFrom(primary: Colors.red.withOpacity(0.5)),
+                //             onPressed: () async {
+                //               await notifier.removeMusic(index);
+                //             },
+                //             child: const Text("削除")),
+                //       )
+                //     ],
+                //   ),
+                // ),
               );
             }));
   }
