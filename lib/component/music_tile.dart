@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:re_re_ca/model/entity/music/music.dart';
 class MusicTile extends StatelessWidget {
-  final Music music;
-  const MusicTile(this.music, Key? key) : super(key: key);
+  final Music? music;
+  final void Function()? onPressed;
+  const MusicTile({this.music,this.onPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +15,10 @@ class MusicTile extends StatelessWidget {
           width: 100,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10)),
-            child: Image.network(music.image)),
-        title: Text(music.title),
-        subtitle: Text(music.author),
-        trailing: const Icon(Icons.more_horiz),
+            child: Image.network(music!.image)),
+        title: Text(music!.title),
+        subtitle: Text(music!.author),
+        trailing: IconButton(onPressed: onPressed, icon: const Icon(Icons.delete), color: Colors.red),
       ),
     );
   }

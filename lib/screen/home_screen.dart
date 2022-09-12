@@ -35,7 +35,7 @@ class HomeScreen extends HookConsumerWidget {
                 onTap: (){
                   notifier.tapMusic(index);
                 },
-                child: MusicTile(musicList[index], key),
+                child: MusicTile(music: musicList[index],onPressed: (){notifier.removeMusic(index);},key: key),
               );
             },
             itemCount: musicList.length,
