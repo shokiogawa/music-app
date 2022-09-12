@@ -154,10 +154,16 @@ class AudioHandlerViewModel extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> removeQueueItemAt(int index) async {
     await _playList.removeAt(index);
-    print(_playList.children);
     final newQueue = queue.value..removeAt(index);
-    print(newQueue);
     queue.add(newQueue);
+  }
+
+  Future<void> changeMusicOrder(int newIndex, int oldIndex, MediaItem movedMediaItem) async {
+    final movedMusic = _playList[oldIndex];
+    await _playList.removeAt(oldIndex);
+    await _playList.insert(newIndex, movedMusic);
+    final newQue = queue.value..removeAt(oldIndex)..insert(newIndex, movedMediaItem);
+    queue.add(newQue);
   }
 
   Future<void> clear() async {

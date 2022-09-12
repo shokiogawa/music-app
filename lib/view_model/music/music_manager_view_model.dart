@@ -82,6 +82,13 @@ class MusicManagerViewModel extends StateNotifier<MusicState> with WidgetsBindin
     });
   }
 
+  Future<void> changeMusicOrder(int newIndex,int oldIndex) async{
+    final Music moveMusic = state.musicList.removeAt(oldIndex);
+    state.musicList.insert(newIndex, moveMusic);
+    final moveMediaItem = MediaItem(id: moveMusic.title, title: moveMusic.title);
+    await _audioHandlerViewModel.changeMusicOrder(newIndex, oldIndex, moveMediaItem);
+  }
+
   Future<void> tapMusic(int index) async {
     await _audioHandlerViewModel.tapMusic(index);
   }
